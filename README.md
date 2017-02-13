@@ -1,4 +1,4 @@
-# react-redux-arch
+# react-redux-arc
 This is a universal javascript (server-side rendering) app architecture built with react/redux
 
 ## Installation
