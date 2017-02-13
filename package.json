@@ -2,6 +2,7 @@
   "name": "react-redux-arch",
   "version": "1.0.0",
   "description": "This is a universal javascript (server-side rendering) app architecture built with react/redux",
+	"author": "Zack Anselm",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zdizzle6717/universal-react-movie-app.git"
+    "url": "git+https://github.com/zdizzle6717/react-redux-arch.git"
   },
   "keywords": [
     "javascript",
@@ -31,9 +32,9 @@
   "author": "Zack Anselm",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zdizzle6717/universal-react-movie-app/issues"
+    "url": "https://github.com/zdizzle6717/react-redux-arch/issues"
   },
-  "homepage": "https://github.com/zdizzle6717/universal-react-movie-app#readme",
+  "homepage": "https://github.com/zdizzle6717/react-redux-arch#readme",
   "dependencies": {
     "attr-accept": "^1.1.0",
     "axios": "^0.14.0",
