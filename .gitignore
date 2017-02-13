@@ -61,5 +61,8 @@ typings/
 .sass-cache/
 *.css.map
 
+# Babel Cache
+babel_cache*
+
 # Environment Variables
 *envVariables.js
