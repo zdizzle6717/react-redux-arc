@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "This is a universal javascript (server-side rendering) app architecture built with react/redux",
 	"author": "Zack Anselm",
+	"license": "MIT",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,6 +20,10 @@
     "type": "git",
     "url": "git+https://github.com/zdizzle6717/react-redux-arc.git"
   },
+	"bugs": {
+    "url": "https://github.com/zdizzle6717/react-redux-arc/issues"
+  },
+  "homepage": "https://github.com/zdizzle6717/react-redux-arc#readme",
   "keywords": [
     "javascript",
     "universal",
@@ -29,12 +34,6 @@
     "reactjs",
     "hapijs"
   ],
-  "author": "Zack Anselm",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/zdizzle6717/react-redux-arc/issues"
-  },
-  "homepage": "https://github.com/zdizzle6717/react-redux-arc#readme",
   "dependencies": {
     "attr-accept": "^1.1.0",
     "axios": "^0.14.0",
