@@ -102,7 +102,9 @@ module.exports = [
                 'size': Joi.number().required(),
                 'type': Joi.string().required()
               })
-            )
+            ),
+						'searchSugTest': Joi.optional(),
+						'datePickerTest': Joi.optional()
           }
         },
         'auth': {
@@ -151,7 +153,9 @@ module.exports = [
                 'size': Joi.number().required(),
                 'type': Joi.string().required()
               })
-            )
+            ),
+						'searchSugTest': Joi.optional(),
+						'datePickerTest': Joi.optional()
           }
         },
         'auth': {

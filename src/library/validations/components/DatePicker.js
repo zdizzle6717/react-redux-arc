@@ -164,11 +164,16 @@ class DatePicker extends React.Component {
 		}
 
 		if (this.state.value || (e.target.name === `${this.props.name}Day`)) {
+			let dateISO;
 			let newDateValue = new Date(month + ' ' + day + ', ' + year);
-			let dateISO = newDateValue.toISOString();
+			try {
+				dateISO = newDateValue.toISOString();
+			} catch(error) {
+				dateISO = undefined;
+			}
 			validity = true;
 			input = {
-				'name': e.target.name,
+				'name': this.props.name,
 				'value': dateISO,
 				'valid': validity,
 				'initial': false,
@@ -180,7 +185,7 @@ class DatePicker extends React.Component {
 		} else {
 			validity = this.props.required ? false : true;
 			input = {
-				'name': e.target.name,
+				'name': this.props.name,
 				'value': null,
 				'valid': validity,
 				'initial': false,
@@ -193,7 +198,13 @@ class DatePicker extends React.Component {
 		input = Object.assign({}, this.state, input);
 		this.setState(input);
 		this.props.addInput(input);
-		// this.props.handleInputChange(e);
+		let phantomEvent = {
+			'target': {
+				'name': this.props.name,
+				'value': input.value
+			}
+		}
+		this.props.handleInputChange(phantomEvent);
 	}
 
 	handleMouseDown() {
