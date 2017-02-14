@@ -5,30 +5,25 @@ import fs from 'fs-extra';
 import env from '../../../envVariables.js';
 import Boom from 'boom';
 import createToken from '../../utils/createToken';
-import userFunctions from '../../utils/userFunctions';
+import {hashPassword, getUserRoleFlags} from '../../utils/userFunctions';
 
 // App users
 let users = {
   'create': (request, reply) => {
-    userFunctions.hashPassword(request.payload.password, (err, hash) => {
-      let siteAdmin = request.payload.role === 'siteAdmin' ? true : false;
-      let providerAdmin = request.payload.role === 'providerAdmin' ? true : false;
-      let contactAdmin = request.payload.role === 'contactAdmin' ? true : false;
+    hashPassword(request.payload.password, (err, hash) => {
       models.User.create({
-          email: request.payload.email,
-          username: request.payload.username,
-          password: hash,
-          siteAdmin: siteAdmin,
-          providerAdmin: providerAdmin,
-          contactAdmin: contactAdmin
+          'email': request.payload.email,
+          'username': request.payload.username,
+          'password': hash,
+          [request.payload.role]: true
         })
         .then((user) => {
           reply({
-            id: user.id,
-            email: user.email,
-            username: user.username,
-            roleFlags: userFunctions.getUserRoleFlags(user),
-            id_token: createToken(user)
+            'id': user.id,
+            'email': user.email,
+            'username': user.username,
+            'roleFlags': getUserRoleFlags(user),
+            'id_token': createToken(user)
           }).code(201);
         })
         .catch((response) => {
@@ -38,18 +33,18 @@ let users = {
   },
   'authenticate': (request, reply) => {
     reply({
-      id: request.pre.user.id,
-      email: request.pre.user.email,
-      username: request.pre.user.username,
-      roleFlags: userFunctions.getUserRoleFlags(request.pre.user),
-      id_token: createToken(request.pre.user)
+      'id': request.pre.user.id,
+      'email': request.pre.user.email,
+      'username': request.pre.user.username,
+      'roleFlags': getUserRoleFlags(request.pre.user),
+      'id_token': createToken(request.pre.user)
     }).code(201);
   },
   'getAll': (request, reply) => {
     models.User.findAll({
-        attributes: ['username', 'email', 'createdAt'],
-        limit: 50,
-        order: '"updatedAt" DESC'
+        'attributes': ['username', 'email', 'createdAt'],
+        'limit': 50,
+        'order': '"updatedAt" DESC'
       })
       .then((users) => {
         reply(users).code(200);

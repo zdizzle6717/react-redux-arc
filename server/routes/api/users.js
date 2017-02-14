@@ -2,7 +2,7 @@
 
 import handlers from '../handlers';
 import Joi from 'joi';
-import userFunctions from '../../utils/userFunctions';
+import {verifyUniqueUser, verifyCredentials} from '../../utils/userFunctions';
 
 module.exports = [
   // Users
@@ -11,7 +11,7 @@ module.exports = [
     'path': '/api/users',
     'config': {
       'pre': [{
-        'method': userFunctions.verifyUniqueUser
+        'method': verifyUniqueUser
       }],
       'handler': handlers.users.create,
       'tags': ['api'],
@@ -35,7 +35,7 @@ module.exports = [
     'path': '/api/users/authenticate',
     'config': {
       'pre': [{
-        'method': userFunctions.verifyCredentials,
+        'method': verifyCredentials,
         'assign': 'user'
       }],
       'handler': handlers.users.authenticate,

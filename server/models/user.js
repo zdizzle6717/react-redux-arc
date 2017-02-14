@@ -25,7 +25,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         'contactAdmin': {
           'type': DataTypes.BOOLEAN,
-          'defaultValue': true
+          'defaultValue': false
         }
       },
 			{

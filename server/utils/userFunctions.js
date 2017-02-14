@@ -81,7 +81,7 @@ function getUserRoleFlags(user) {
   return userRoleFlags;
 }
 
-module.exports = {
+export {
   verifyUniqueUser,
   verifyCredentials,
   hashPassword,
