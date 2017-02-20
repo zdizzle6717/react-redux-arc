@@ -3,6 +3,8 @@
 require('babel-core/register');
 
 import Hapi from 'hapi';
+import cluster from 'cluster';
+import os from 'os';
 import Boom from 'boom';
 import Inert from 'inert';
 import Vision from 'vision';
@@ -65,11 +67,32 @@ server.register(HapiAuthJwt, (err) => {
 // Routes
 server.route(require('./routes'));
 
-models.sequelize.sync().then(function() {
-    server.start((err) => {
-        if (err) {
-            throw err;
-        }
-        console.log('Server running at:', server.info.uri);
+// Cluster config and server start
+if(cluster.isMaster) {
+    let numWorkers = os.cpus().length;
+
+    console.log('Master cluster setting up ' + numWorkers + ' workers...');
+
+    for(let i = 0; i < numWorkers; i++) {
+        cluster.fork();
+    }
+
+    cluster.on('online', function(worker) {
+        console.log('Worker ' + worker.process.pid + ' is online');
     });
-});
+
+    cluster.on('exit', function(worker, code, signal) {
+        console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal);
+        console.log('Starting a new worker');
+        cluster.fork();
+    });
+} else {
+	models.sequelize.sync().then(function() {
+	    server.start((err) => {
+	        if (err) {
+	            throw err;
+	        }
+	        console.log('Server running at:', server.info.uri, ' with process id', process.pid);
+	    });
+	});
+}
