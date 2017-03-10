@@ -12,34 +12,52 @@ let files = {
 		if (!data.path || !data.fileSize) {
 			reply(Boom.badRequest(`A 'path' and 'fileSize' attribute must be appended to the FormData object`));
 		} else if (data.file) {
-      let name = Date.now() + '-' + data.file.hapi.filename;
-			let path = __dirname + '/../../..' + env.uploadPath + data.path + name;
+      let fileName = Date.now() + '-' + data.file.hapi.filename;
+			let location = __dirname + '/../../..' + env.uploadPath + data.path;
+			let path = location + fileName;
 			fse.ensureFile(path, (err) => {
 				if (err) {
-					console.log(err);
-					reply().code(404);
-				} else {
-					let file = fse.createWriteStream(path);
-					file.on('error', (err) => {
-		        console.error(err);
-		      });
-
-					data.file.pipe(file);
-
-		      data.file.on('end', (err) => {
-		        let response = {
-		          'file': {
-		            'name': name,
-		            'size': data.fileSize,
-		            'type': data.file.hapi.headers['content-type']
-		          },
-		          'headers': data.file.hapi.headers,
-		          'status': 200,
-		          'statusText': 'File uploaded successfully!'
-		        };
-		        reply(JSON.stringify(response));
-	      	});
+					reply(Boom.notAcceptable('ensureFile: ' + err));
+					return;
 				}
+
+				let file = fse.createWriteStream(path);
+				file.on('error', (err) => {
+					reply(Boom.notAcceptable(err));
+				});
+
+				data.file.pipe(file);
+
+				data.file.on('end', (err) => {
+					if (err) {
+						reply(Boom.notAcceptable('error on file end: ' + err));
+						return;
+					}
+
+					let response = {
+						'file': {
+							'name': fileName,
+							'size': data.fileSize,
+							'type': data.file.hapi.headers['content-type']
+						},
+						'headers': data.file.hapi.headers,
+						'status': 200,
+						'statusText': 'File uploaded successfully!'
+					};
+					fse.chown(location, env.serverUID, env.serverGID, (err) => {
+						if (err) {
+							reply(Boom.notAcceptable('chown: ' + err));
+							return;
+						}
+						fse.chmod(location, '0775', (err) => {
+							if (err) {
+								reply(Boom.notAcceptable('chown: ' + err));
+								return;
+							}
+							reply(JSON.stringify(response));
+						});
+					});
+				});
 			});
     } else {
       let response = {

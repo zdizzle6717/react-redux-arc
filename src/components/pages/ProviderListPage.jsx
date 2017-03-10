@@ -80,8 +80,7 @@ class ProviderListPage extends React.Component {
                 <div className="row">
                     <div className="small-12 medium-4 large-4 columns">
                         <Link key="providerCreate" to="/providers/create" className="button small-12 large-6">
-                            <i className="fa fa-plus"></i>
-                            Add New Provider</Link>
+                            <i className="fa fa-plus"></i> Add New Provider</Link>
                     </div>
                     <div className="small-12 medium-4 large-4 columns medium-offset-4 large-offset-4">
                         <div className="search-input">
