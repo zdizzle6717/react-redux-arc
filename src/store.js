@@ -23,15 +23,30 @@ if(typeof(Storage) !== "undefined" && typeof(window) !== 'undefined') {
 	composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
 }
 
+// Create Store (Development Chrome)
+// const store = createStore(
+// 	rootReducer,
+// 	preLoadedState,
+// 	composeEnhancers(applyMiddleware(
+// 		thunkMiddleware, // let's us dispatch functions
+// 		loggerMiddleware // middleware that logs actions (development only)
+// 	))
+// );
 
 // Create Store
 const store = createStore(
 	rootReducer,
 	preLoadedState,
-	composeEnhancers(applyMiddleware(
-		thunkMiddleware, // let's us dispatch functions
-		loggerMiddleware // middleware that logs actions (development only)
-	))
+	// Production
+	applyMiddleware(
+		thunkMiddleware
+	)
+
+	// Development - Redux Devtools (Chrome only)
+	// composeEnhancers(applyMiddleware(
+	// 	thunkMiddleware, // let's us dispatch functions
+	// 	loggerMiddleware // middleware that logs actions (development only)
+	// ))
 );
 
 export default store;

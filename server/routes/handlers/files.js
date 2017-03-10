@@ -1,7 +1,7 @@
 'use strict';
 
 import models from '../../models';
-import fs from 'fs-extra';
+import fse from 'fs-extra';
 import env from '../../../envVariables.js';
 import Boom from 'boom';
 
@@ -9,15 +9,17 @@ import Boom from 'boom';
 let files = {
   'create': (request, reply) => {
     let data = request.payload;
-    if (data.file) {
+		if (!data.path || !data.fileSize) {
+			reply(Boom.badRequest(`A 'path' and 'fileSize' attribute must be appended to the FormData object`));
+		} else if (data.file) {
       let name = Date.now() + '-' + data.file.hapi.filename;
-			let path = __dirname + '/../../..' + env.uploadPath + request.params.path + '/' + name;
-			fs.ensureFile(path, (err) => {
+			let path = __dirname + '/../../..' + env.uploadPath + data.path + name;
+			fse.ensureFile(path, (err) => {
 				if (err) {
 					console.log(err);
 					reply().code(404);
 				} else {
-					let file = fs.createWriteStream(path);
+					let file = fse.createWriteStream(path);
 					file.on('error', (err) => {
 		        console.error(err);
 		      });
@@ -28,7 +30,7 @@ let files = {
 		        let response = {
 		          'file': {
 		            'name': name,
-		            'size': request.params.size,
+		            'size': data.fileSize,
 		            'type': data.file.hapi.headers['content-type']
 		          },
 		          'headers': data.file.hapi.headers,

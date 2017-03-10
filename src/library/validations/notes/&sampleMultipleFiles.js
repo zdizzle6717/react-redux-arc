@@ -30,7 +30,9 @@ function uploadFiles(files) {
 				}
 			}
 		data.append('file', file);
-		promises.push(axios.post('/files/contacts/' + file.size, data, config));
+		data.set('path', 'contacts/');
+		data.set('fileSize', file.size);
+		promises.push(axios.post('/files', data, config));
 	});
 
 	return axios.all(promises);

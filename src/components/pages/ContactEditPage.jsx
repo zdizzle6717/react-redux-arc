@@ -3,13 +3,13 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import axios from 'axios';
 import {Link, browserHistory} from 'react-router';
 import {AlertActions} from '../../library/alerts';
 import {Form, Input, Select, CheckBox, RadioGroup, DatePicker, FileUpload} from '../../library/validations';
-import ContactActions from '../../actions/ContactActions';
 import searchSuggestions from '../../library/searchSuggestions';
 import {updateCheckBox, updateInput, updateRadioButton, updateSearchSuggestion} from '../../library/utilities/handlers';
+import {uploadFiles} from '../../library/utilities';
+import ContactActions from '../../actions/ContactActions';
 import ContactService from '../../services/ContactService';
 let SearchSuggestions = searchSuggestions(ContactService, 'searchSuggestions');
 
@@ -99,23 +99,12 @@ class ContactEditPage extends React.Component {
 			this.setState({
 				'contact': contact
 			});
+			this.showAlert('uploadSuccess');
 		});
 	}
 
 	uploadFiles(files) {
-		let promises = [];
-		files.forEach((file) => {
-			let data = new FormData();
-			let config = {
-					onUploadProgress: function(progressEvent) {
-						let percentCompleted = progressEvent.loaded / progressEvent.total;
-					}
-				}
-			data.append('file', file);
-			promises.push(axios.post('/files/contacts/' + file.size, data, config));
-		});
-
-		return axios.all(promises);
+		return uploadFiles(files, '/files', 'contacts/');
 	}
 
 	handleSubmit(e) {
@@ -155,6 +144,14 @@ class ContactEditPage extends React.Component {
 				this.props.addAlert({
 					'title': 'Contact Updated',
 					'message': `${this.state.contact.firstName} ${this.state.contact.lastName} was updated successfully.`,
+					'type': 'success',
+					'delay': 3000
+				});
+			},
+			'uploadSuccess': () => {
+				this.props.addAlert({
+					'title': 'Upload Success',
+					'message': 'New file successfully uploaded',
 					'type': 'success',
 					'delay': 3000
 				});

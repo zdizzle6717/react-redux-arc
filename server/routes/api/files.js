@@ -6,7 +6,7 @@ import Joi from 'joi';
 module.exports = [
 	{
 		'method': 'POST',
-    'path': '/api/files/{path}/{size}',
+    'path': '/api/files',
     'handler': handlers.files.create,
     'config': {
       'payload': {

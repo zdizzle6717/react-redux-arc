@@ -8,6 +8,7 @@ import {Link, browserHistory} from 'react-router';
 import {TabGroup, Tab} from '../../library/tabs';
 import {AlertActions} from '../../library/alerts';
 import {getFormErrorCount, Form, Input, Select, TextArea, CheckBox, RadioGroup, FileUpload} from '../../library/validations';
+import {uploadFiles} from '../../library/utilities';
 import ContactActions from '../../actions/ContactActions';
 
 const mapStateToProps = (state) => {
@@ -110,19 +111,7 @@ class TabsPage extends React.Component {
 	}
 
 	uploadFiles(files) {
-		let promises = [];
-		files.forEach((file) => {
-			let data = new FormData();
-			let config = {
-					onUploadProgress: function(progressEvent) {
-						let percentCompleted = progressEvent.loaded / progressEvent.total;
-					}
-				}
-			data.append('file', file);
-			promises.push(axios.post('/files/contacts/' + file.size, data, config));
-		});
-
-		return axios.all(promises);
+		return uploadFiles(files, '/files', 'contacts/');
 	}
 
 	handleSubmit(e) {
@@ -162,6 +151,14 @@ class TabsPage extends React.Component {
 				this.props.addAlert({
 					'title': 'Contact Updated',
 					'message': `${this.state.contact.firstName} ${this.state.contact.lastName} was updated successfully.`,
+					'type': 'success',
+					'delay': 3000
+				});
+			},
+			'uploadSuccess': () => {
+				this.props.addAlert({
+					'title': 'Upload Success',
+					'message': 'New file successfully uploaded',
 					'type': 'success',
 					'delay': 3000
 				});

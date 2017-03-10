@@ -52,7 +52,7 @@
     "foundation-sites": "^6.2.3",
     "fs-extra": "^0.30.0",
     "hapi": "^14.1.0",
-    "hapi-auth-jwt": "^4.0.0",
+    "hapi-auth-jwt2": "^7.2.4",
     "hapi-swagger": "^6.2.2",
     "hbs": "^4.0.0",
     "hoek": "^4.1.0",

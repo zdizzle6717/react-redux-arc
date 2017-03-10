@@ -45,7 +45,6 @@ class Form extends React.Component {
 					this.props.resetForm(formName);
 				})
 			}
-			console.log('reset!');
 			this.props.resetForm(this.props.name);
 		}
 	}
