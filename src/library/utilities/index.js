@@ -1,7 +1,7 @@
 'use strict';
 
 import formatJSONDate from './formatJSONDate';
-import handlers from './handlers';
+import * as handlers from './handlers';
 import isEmpty from './isEmpty';
 import range from './range';
 import scrollHelpers from './scrollHelpers';
