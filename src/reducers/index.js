@@ -1,7 +1,7 @@
 'use strict';
 
 import {combineReducers} from 'redux';
-import {syncHistoryWithStore, routerReducer as routing} from 'react-router-redux';
+import {routerReducer as routing} from 'react-router-redux';
 import {provider, providers} from './providers';
 import {contact, contacts} from './contacts';
 import {alerts} from '../library/alerts';
@@ -23,5 +23,5 @@ export default combineReducers({
 	loader,
 	redirectRoute,
 	user,
-	users,
+	users
 });

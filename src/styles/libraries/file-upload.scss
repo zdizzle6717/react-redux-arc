@@ -8,6 +8,14 @@
 		height: 2.4375rem;
 		border: 2px dotted $black-500;
 
+		&.disabled {
+			cursor: not-allowed;
+
+			label {
+				cursor: not-allowed !important;
+			}
+		}
+
 		&.touched.invalid:not(.focused),
 		&.blurred.invalid,
 		&.dirty.invalid {
