@@ -63,11 +63,15 @@ class ProviderEditPage extends React.Component {
 			this.props.createProvider(this.state.provider).then(() => {
 				this.showAlert('providerCreated');
 				browserHistory.push('/providers');
+			}).catch((error) => {
+				console.log(error);
 			});
 		} else {
 			this.props.updateProvider(this.state.provider.id, this.state.provider).then(() => {
 				this.showAlert('providerUpdated');
 				browserHistory.push('/providers');
+			}).catch((error) => {
+				console.log(error);
 			});
 		}
 	}

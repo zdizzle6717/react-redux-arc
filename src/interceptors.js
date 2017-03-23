@@ -46,7 +46,6 @@ const initInterceptors = (baseUrl = 'http://localhost:8000/api/', timeout = _tim
 
 	  return response;
 	}, (error) => {
-		console.log(error);
 		if (error.response) {
 			if (error.response.status == 401 || error.response.data.statusCode == 401) {
 				store.dispatch(UserActions.logout());
@@ -61,7 +60,7 @@ const initInterceptors = (baseUrl = 'http://localhost:8000/api/', timeout = _tim
 		}
 
 		if (numLoadings === 0) {
-			Promise.reject(error.response.data);
+			return Promise.reject(error.response.data);
 		}
 
 		if (numLoadings < 2) {
@@ -72,6 +71,6 @@ const initInterceptors = (baseUrl = 'http://localhost:8000/api/', timeout = _tim
 
 		return Promise.reject(error.response.data);
 	});
-}
+};
 
 export default initInterceptors;

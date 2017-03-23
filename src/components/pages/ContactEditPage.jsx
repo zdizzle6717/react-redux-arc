@@ -113,11 +113,15 @@ class ContactEditPage extends React.Component {
 			this.props.createContact(contact).then((response) => {
 				this.showAlert('contactCreated');
 				browserHistory.push('/contacts');
+			}).catch((error) => {
+				console.log(error);
 			});
 		} else {
 			this.props.updateContact(contact.id, contact).then(() => {
 				this.showAlert('contactUpdated');
 				browserHistory.push('/contacts');
+			}).catch((error) => {
+				console.log(error);
 			});
 		}
 	}
