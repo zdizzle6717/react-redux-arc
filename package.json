@@ -11,9 +11,9 @@
     "start-client": "forever start -c 'node_modules/.bin/babel-node' server-client/index.js",
     "stop-client": "forever stop 'server-client/index.js'",
     "watch-server": "babel-watch server/index.js",
-    "start-server": "forever start -c 'node_modules/.bin/babel-node' server/index.js",
-    "stop-server": "forever stop server/index.js",
-		"build": "node build-style.js && NODE_ENV=development node_modules/.bin/webpack -d --config webpack.dev.js",
+    "start-server": "babel server/index.js --out-file server/index-compiled.js && pm2 start server/index-compiled.js --name='Sandbox API'",
+    "stop-server": "pm2 stop 'Sandbox API'",
+    "build": "node build-style.js && NODE_ENV=development node_modules/.bin/webpack -d --config webpack.dev.js",
     "build-prod": "node build-style.js && NODE_ENV=production node_modules/.bin/webpack -p --config webpack.prod.js"
   },
   "repository": {
@@ -90,6 +90,7 @@
     "http-server": "^0.9.0",
     "kexec": "^2.0.2",
     "node-sass": "^3.9.3",
+    "pm2": "^2.4.4",
     "sass-loader": "^4.0.2",
     "sequelize-cli": "^2.4.0",
     "stringify": "^5.1.0",
